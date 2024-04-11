@@ -1,0 +1,21 @@
+.seccion {
+  padding: 5rem 0;
+  display: none;
+
+  .text-center {
+    text-align: center;
+  }
+
+  .separado {
+    margin-top: 2rem;
+  }
+}
+
+// CLASES QUE SE MOSTRARAN/OCULTARAN CON JS
+.mostrar {
+  display: block;
+}
+
+.ocultar {
+  display: none;
+}

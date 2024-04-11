@@ -1,0 +1,31 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.formulario {
+  width: 100%;
+  margin-top: 3.5rem;
+}
+
+.campo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  
+  label {
+    flex: 0 0 10rem;
+  }
+
+  input {
+    flex: 1;
+    padding: calc(v.$separacion / 4);
+    border: none;
+    border-radius: .5rem;
+    
+    &:disabled {
+      background-color: lighten(v.$negro, 30%);
+      color: v.$blanco;
+      // not-allowed cambia el cursor a uno que muestra algo deshabilitado
+      cursor: not-allowed;
+    }
+  }
+}
