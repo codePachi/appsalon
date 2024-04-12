@@ -24,42 +24,46 @@
     <?php 
       $idCita = 0;
       foreach($citas as $key => $cita) {
-        // Verificamos que el usuario no se haya eliminado
-        if(!$cita->userid === NULL){
-          if($idCita !== $cita->id) { 
-            $total = 0; // Creamos la variable que sumara los valores de los servicios aqui ya que se iniciara solo una vez hasta que se cambie de cita, fuera del if se iniciaria por cada recorrido que hiciera el foreach
+        if($cita->userid !== NULL){
+          // Verificamos que el usuario no se haya eliminado
+          $total = 0; // Creamos la variable que sumara los valores de los servicios aqui ya que se iniciara solo una vez hasta que se cambie de cita, fuera del if se iniciaria por cada recorrido que hiciera el foreach
+          if($idCita !== $cita->id ) { 
     ?>
 
     <li> 
       <h3>Datos del cliente</h3>
+      <p>id: <span><?php echo $cita->id; ?></span></p>
       <p>Cliente: <span><?php echo $cita->cliente; ?></span></p>
       <p>Hora: <span><?php echo $cita->hora; ?></span></p>
       <p>Email: <span><?php echo $cita->email; ?></span></p>
       <p>Telefono: <span><?php echo $cita->telefono; ?></span></p>
       <h3>Servicios</h3>
 
+      <?php 
+        $idCita = $cita->id;
+        };
+      ?>
+
       <p class="servicio"><?php echo $cita->servicio . " $" . $cita->precio; ?></p>
 
-      <?php 
-        $idCita = $cita->id;  
-        };
-        $total += $cita->precio; // Suma de los precios, lo hacemos fuera del if para que sume el precio de todos los servicios
+      <?php
+        $total += $cita->precio;
         $actual = $cita->id;
         $proximo = $citas[$key + 1]->id ?? 0;
         if(esUltimo($actual, $proximo)){
       ?>
-        <p class="total">Total: <span>$<?php echo $total; ?></span></p>
+      <p class="total">Total: <span>$<?php echo $total; ?></span></p>
 
-        <form action="/api/eliminar" method="POST">
-          <input type="hidden" name="id" value="<?php echo $cita->id; ?>">
-          <input type="submit" class="boton-eliminar" value="Eliminar">
-        </form>
+      <form action="/api/eliminar" method="POST">
+        <input type="hidden" name="id" value="<?php echo $cita->id; ?>">
+        <input type="submit" class="boton-eliminar" value="Eliminar">
+      </form>
+      
       <?php
-            };
-          };
+        };
+        };
         };
       ?> 
-    </li>    
   </ul>
 </div>
 
