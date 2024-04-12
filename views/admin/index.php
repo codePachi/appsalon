@@ -25,7 +25,7 @@
       $idCita = 0;
       foreach($citas as $key => $cita) {
         // Verificamos que el usuario no se haya eliminado
-        if(!$cita->userid == NULL){
+        if(!$cita->userid === NULL){
           if($idCita !== $cita->id) { 
             $total = 0; // Creamos la variable que sumara los valores de los servicios aqui ya que se iniciara solo una vez hasta que se cambie de cita, fuera del if se iniciaria por cada recorrido que hiciera el foreach
     ?>
