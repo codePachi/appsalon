@@ -23,7 +23,6 @@
           if($usuario){
             // Verificamos el password
             if($usuario->vHashPassword($auth->password)){
-              session_start();
 
               // Autenticamos usuario
               $_SESSION['id'] = $usuario->id;
