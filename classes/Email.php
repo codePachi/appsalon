@@ -38,7 +38,7 @@
       // Cuerpo del mail
       $contenido = "<html>";
       $contenido .= "<p><strong>Hola " . $this->nombre . "!</strong> bienvenido a AppSalon! Para finalizar el proceso de creacion de tu cuenta debes darle click al siguiente enlace:</p>";
-      $contenido .= "<a href='" . $_ENV['APP_URL'] . "/confirmar-cuenta?token=" . $this->token . " '>Confirmar cuenta</a>";
+      $contenido .= "<a href='" . $_ENV['APP_URL'] . "confirmar-cuenta?token=" . $this->token . " '>Confirmar cuenta</a>";
       $contenido .= "<p>Si tu no solicitaste esta cuenta puedes ignorar este mensaje</p>";
       $contenido .= "</html>";
 
@@ -68,7 +68,7 @@
     
       $contenido = "<html>";
       $contenido .= "<p><strong>Hola " . $this->nombre . "!</strong> Has solicitado reestablecer tu password, sigue el siguiente enlace para hacerlo:</p>";
-      $contenido .= "<a href='" . $_ENV['APP_URL'] . "/recuperar?token=" . $this->token . " '>Reestablecer Password</a>";
+      $contenido .= "<a href='" . $_ENV['APP_URL'] . "recuperar?token=" . $this->token . " '>Reestablecer Password</a>";
       $contenido .= "<p>Si tu no solicitaste esta cambio puedes ignorar este mensaje</p>";
       $contenido .= "</html>";
       

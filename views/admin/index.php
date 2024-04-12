@@ -24,15 +24,14 @@
     <?php 
       $idCita = 0;
       foreach($citas as $key => $cita) {
+        // Verificamos que el usuario no se haya eliminado
         if($cita->userid !== NULL){
-          // Verificamos que el usuario no se haya eliminado
-          $total = 0; // Creamos la variable que sumara los valores de los servicios aqui ya que se iniciara solo una vez hasta que se cambie de cita, fuera del if se iniciaria por cada recorrido que hiciera el foreach
-          if($idCita !== $cita->id ) { 
+        if($idCita !== $cita->id ) {
+        $total = 0; // Creamos la variable que sumara los valores de los servicios
     ?>
 
     <li> 
       <h3>Datos del cliente</h3>
-      <p>id: <span><?php echo $cita->id; ?></span></p>
       <p>Cliente: <span><?php echo $cita->cliente; ?></span></p>
       <p>Hora: <span><?php echo $cita->hora; ?></span></p>
       <p>Email: <span><?php echo $cita->email; ?></span></p>
