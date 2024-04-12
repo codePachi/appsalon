@@ -17,7 +17,6 @@
     }
 
     public static function crear (Router $router){
-      session_start();
       isAdmin();
 
       $servicio = new Servicio;
