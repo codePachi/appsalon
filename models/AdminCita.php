@@ -19,7 +19,7 @@
       $this->hora = $args['hora'] ?? '';
       $this->cliente = $args['cliente'] ?? '';
       $this->email = $args['email'] ?? '';
-      $this->telefono = $args['id'] ?? '';
+      $this->telefono = $args['telefono'] ?? '';
       $this->servicio = $args['servicio'] ?? '';
       $this->precio = $args['precio'] ?? '';
       $this->userid = $args['userid'] ?? '';
