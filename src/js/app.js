@@ -26,7 +26,7 @@ function iniciarApp(){
   seccionSig(); // Permite ir a las secciones siguientes
   consultaAPI(); // Consulta la API en el backend de PHP
   idCliente(); // Añade el id del cliente al objeto de cita
-  nombeCliente(); // Añade el nombre del cliente al objeto de cita
+  nombreCliente(); // Añade el nombre del cliente al objeto de cita
   seleccionarFecha(); // Añade la fecha de la cita en el objeto
   seleccionarHora(); // Añade la hora en la cita
   mostrarResumen(); // Mostrar resumen de la cita
