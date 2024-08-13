@@ -1,59 +1,65 @@
-const {src, dest, watch , parallel} = require('gulp');
-const sass = require('gulp-sass')(require('sass'));
-const autoprefixer = require('autoprefixer');
-const postcss    = require('gulp-postcss');
-const sourcemaps = require('gulp-sourcemaps');
-const cssnano = require('cssnano');
-const terser = require('gulp-terser-js');
-const imagemin = require('gulp-imagemin');
-const notify = require('gulp-notify');
-const cache = require('gulp-cache');
-const webp = require('gulp-webp');
+import path from 'path';
+import fs from 'fs';
+import {src, dest, watch, series} from 'gulp';
+import sharp from 'sharp';
+import terser from 'gulp-terser';
+import * as dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+
+const sass = gulpSass(dartSass);
 
 const paths = {
   scss: 'src/scss/**/*.scss',
-  js: 'src/js/**/*.js',
-  imagenes: 'src/img/**/*'
+  img: 'src/img/*',
+  js: 'src/js/*.js'
 }
 
-function css() {
-  return src(paths.scss)
-    .pipe(sourcemaps.init())
-    .pipe(sass())
-    .pipe(postcss([autoprefixer(), cssnano()]))
-    .pipe(sourcemaps.write('.'))
-    .pipe( dest('public/build/css') );
+export function css(done) {
+  src(paths.scss)
+    .pipe(sass({outputStyle : 'compressed'}).on('error', sass.logError))
+    .pipe(dest('public/build/css'))
+  done()
 }
 
-function javascript() {
-  return src(paths.js)
+export function js(done) {
+  src(paths.js)
     .pipe(terser())
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest('public/build/js'));
+    .pipe(dest('public/build/js'))
+  done()
 }
 
-function imagenes() {
-  return src(paths.imagenes)
-    .pipe(cache(imagemin({ optimizationLevel: 3})))
-    .pipe(dest('public/build/img'))
-    .pipe(notify({ message: 'Imagen Completada'}));
+export async function imgWebpJpeg(done) {
+  const inputFolder = './src/img';
+  const outputFolder = './public/build/img';
+
+  const images = fs.readdirSync(inputFolder);
+
+  await Promise.all(images.map(img => {
+    procesarImagenes(path.join(inputFolder, img), outputFolder);
+  }))
+  done();
 }
 
-function versionWebp() {
-  return src(paths.imagenes)
-    .pipe( webp() )
-    .pipe(dest('public/build/img'))
-    .pipe(notify({ message: 'Imagen Completada'}));
+async function procesarImagenes(file, outputFolder) {
+  if (!fs.existsSync(outputFolder)) {
+    fs.mkdirSync(outputFolder, { recursive: true })
+  }
+  const baseName = path.basename(file, path.extname(file))
+  const extName = path.extname(file)
+  const outputFileJpg = path.join(outputFolder, `${baseName}${extName}`)
+  const outputFileWebp = path.join(outputFolder, `${baseName}.webp`)
+  const outputFileAvif = path.join(outputFolder, `${baseName}.avif`)
+  const options = {quality: 80}
+  
+  await sharp(file).jpeg(options).toFile(outputFileJpg)
+  await sharp(file).webp(options).toFile(outputFileWebp)
+  await sharp(file).avif().toFile(outputFileAvif)
 }
 
-function watchArchivos() {
-  watch( paths.scss, css );
-  watch( paths.js, javascript );
-  watch( paths.imagenes, imagenes );
-  watch( paths.imagenes, versionWebp );
+export function dev() {
+  watch(paths.scss, css);
+  watch(paths.js, js);
+  watch(paths.img, imgWebpJpeg);
 }
 
-exports.css = css;
-exports.watchArchivos = watchArchivos;
-exports.default = parallel(css, javascript, imagenes, versionWebp, watchArchivos);
-exports.build = parallel(css, javascript, imagenes, versionWebp);
+export default series(imgWebpJpeg, css, js, dev);

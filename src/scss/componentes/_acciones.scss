@@ -11,12 +11,11 @@
   a {
     color: v.$blanco;
     margin-top: calc(v.$separacion / 2);
-    
+    display: block;
+    text-align: center;
+
     @include m.tablet {
       margin-top: 0;
     }
-
-    display: block;
-    text-align: center;
   }
 }
